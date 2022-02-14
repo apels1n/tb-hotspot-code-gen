@@ -28,7 +28,7 @@ def add_user():
         global name
         name = random.randint(111111, 999999)
         try:
-            list_users.set(id="1", server="hotspot1", name=str(name), comment='Dont change list order fot this user')
+            list_users.set(id="1", server="hotspot1", name=str(name), comment='Dont change list order for this user')
         except:
             list_users.add(name=str(name), server="hotspot1", comment='Dont change list order for this user', profile='default',)
         finally:
@@ -37,8 +37,13 @@ def add_user():
 def remove_user():
     global name
     name = None
-    list_hosts.remove()
-    list_users.remove(id='*1')
+    try:
+        for host in list_hosts.get(authorized="true"):
+            list_hosts.remove(id=host.get('id'))
+        for usr in list_users.get(comment="Dont change list order for this user"):
+            list_users.remove(id=usr.get('id'))
+    except:
+        return None
 
 if __name__ == "__main__":
     main()
