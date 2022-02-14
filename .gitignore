@@ -1,6 +1,7 @@
 \dev
 \.idea
 \__pycache__
+\output
 auth.txt
 bot_token.txt
 schedule.csv
