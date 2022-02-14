@@ -1,0 +1,7 @@
+\dev
+\.idea
+\__pycache__
+auth.txt
+bot_token.csv
+schedule.csv
+users.csv

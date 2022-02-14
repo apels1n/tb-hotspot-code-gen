@@ -8,6 +8,7 @@ f_auth.close()
 connection = routeros_api.RouterOsApiPool(host=str(auth[2]), port=int(auth[3]), username=str(auth[0]), password=str(auth[1]), plaintext_login=True)
 api = connection.get_api()
 list_users = api.get_resource('/ip/hotspot/user')
+list_hosts = api.get_resource('/ip/hotspot/host/')
 
 def main():
     match input('1 - List users\n2 - Add user (random)\n3 - Remove user\nEnter: '):
@@ -36,6 +37,7 @@ def add_user(auto = True):
 def remove_user():
     global name
     name = None
+    list_hosts.remove()
     list_users.remove(id='*1')
 
 if __name__ == "__main__":
