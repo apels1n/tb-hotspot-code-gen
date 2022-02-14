@@ -1,1 +1,0 @@
-{'id': '*1', 'name': '487562', 'profile': 'default', 'uptime': '0s', 'bytes-in': '0', 'bytes-out': '0', 'packets-in': '0', 'packets-out': '0', 'dynamic': 'false', 'disabled': 'false'}
