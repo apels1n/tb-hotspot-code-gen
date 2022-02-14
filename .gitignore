@@ -2,6 +2,7 @@
 \.idea
 \__pycache__
 \output
+\venv
 auth.txt
 bot_token.txt
 schedule.csv
