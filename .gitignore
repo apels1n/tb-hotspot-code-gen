@@ -2,6 +2,6 @@
 \.idea
 \__pycache__
 auth.txt
-bot_token.csv
+bot_token.txt
 schedule.csv
 users.csv
