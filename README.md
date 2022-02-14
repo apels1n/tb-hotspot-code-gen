@@ -1,6 +1,10 @@
 # HotSpot Telegram bot control
 ## Used libs:
 - [`RouterOS api`](https://github.com/socialwifi/RouterOS-api)
+- [`pyTelegramBotApi`](https://github.com/eternnoir/pyTelegramBotAPI)
+```
+pip install -r requirements.txt
+```
 
 Перед запуском в дирректории нужно создать четыре файла:
 - `auth.txt`
