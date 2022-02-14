@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 import csv
 import time
@@ -33,7 +34,7 @@ def mult_threading(func):
 
 @mult_threading
 def create_user():
-    with open("schedule.csv", 'r') as schedule_file:
+    with open("schedule.csv", 'r', encoding='utf-8') as schedule_file:
         reader = csv.DictReader(schedule_file, delimiter=',')
         for row in reader:
             create_time.append(row["create"])
@@ -65,23 +66,27 @@ def update_users():
         global allowed_users
         global admins
         allowed_users = []
-        with open("users.csv", 'r') as users_file:
+        with open("users.csv", 'r', encoding='utf-8') as users_file:
             reader = csv.DictReader(users_file, delimiter=',')
             for row in reader:
                 allowed_users.append(row["id"])
             users_file.close()
         time.sleep(3)
 
+def get_code():
+    dict = rosapi.list_users.get()[1]
+    return dict.get('name')
+
 def tbot():
     def addKB(message):
         markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True, one_time_keyboard=False)
         key = types.KeyboardButton(kb[0])
         markup.row(key)
-        bot.send_message(message.chat.id, "Choose one letter:", reply_markup=markup)
+        bot.send_message(message.chat.id, "Оберіть дію:", reply_markup=markup)
 
     @bot.message_handler(func=lambda message: str(message.chat.id) not in allowed_users)
     def some(message):
-        return False
+        bot.send_message(message.chat.id, f"Ваш Telegram ідентифікатор: {message.chat.id}.\nЗверніться до системного адміністратора")
 
     @bot.message_handler(commands=['start'])
     def start(message):
@@ -94,7 +99,7 @@ def tbot():
     @bot.message_handler(func=lambda message: message.text == str(kb[0]))
     def send_code(message):
         try:
-            bot.send_message(message.chat.id, rosapi.name)
+            bot.send_message(message.chat.id, get_code())
         except:
             bot.send_message(message.chat.id, "None")
 

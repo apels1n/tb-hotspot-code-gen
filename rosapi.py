@@ -24,13 +24,13 @@ def main():
 def listusers():
     print(list_users.get())
 
-def add_user(auto = True):
+def add_user():
         global name
         name = random.randint(111111, 999999)
         try:
-            list_users.set(id="*1", name=str(name), comment='Dont change list order fot this user')
+            list_users.set(id="1", server="hotspot1", name=str(name), comment='Dont change list order fot this user')
         except:
-            list_users.add(name=str(name), comment='Dont change list order for this user', profile='default',)
+            list_users.add(name=str(name), server="hotspot1", comment='Dont change list order for this user', profile='default',)
         finally:
             return str(name)
 
