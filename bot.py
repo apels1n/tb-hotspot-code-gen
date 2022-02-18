@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 import csv
 import time
@@ -7,7 +8,10 @@ import schedule
 import threading
 from telebot import types
 from functools import wraps
-from rosapi import add_user, remove_user
+from rosapi import add_user
+from rosapi import remove_user
+
+create_time, delete_time = [], []
 
 kb = ["🔑Код"]
 
@@ -29,7 +33,13 @@ def mult_threading(func):
     return wrapper
 
 @mult_threading
-def scheduler():
+def create_user():
+    with open("schedule.csv", 'r', encoding='utf-8') as schedule_file:
+        reader = csv.DictReader(schedule_file, delimiter=',')
+        for row in reader:
+            create_time.append(row["create"])
+            delete_time.append(row["remove"])
+        schedule_file.close()
     schedule.every().day.at(create_time[0]).do(add_user)
     schedule.every().day.at(delete_time[0]).do(remove_user)
     schedule.every().day.at(create_time[1]).do(add_user)
@@ -51,7 +61,7 @@ def scheduler():
         time.sleep(1)
 
 @mult_threading
-def update_users_list():
+def update_users():
     while True:
         global allowed_users
         global admins
@@ -63,23 +73,9 @@ def update_users_list():
             users_file.close()
         time.sleep(3)
 
-@mult_threading
-def update_schedule_list():
-    while True:
-        global create_time, delete_time
-        create_time, delete_time = [], []
-        with open("schedule.csv", 'r', encoding='utf-8') as schedule_file:
-            reader = csv.DictReader(schedule_file, delimiter=',')
-            for row in reader:
-                create_time.append(row["create"])
-                delete_time.append(row["remove"])
-            schedule_file.close()
-        scheduler()
-        time.sleep(3)
-
 def get_code():
-   dict = rosapi.list_users.get()[1]
-   return dict.get('name')
+    dict = rosapi.list_users.get()[1]
+    return dict.get('name')
 
 def tbot():
     def addKB(message):
@@ -110,8 +106,8 @@ def tbot():
     bot.infinity_polling()
 
 def main():
-    update_schedule_list()
-    update_users_list()
+    update_users()
+    create_user()
     tbot()
 
 if __name__ == "__main__":
