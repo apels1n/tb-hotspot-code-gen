@@ -1,4 +1,5 @@
 # HotSpot Telegram bot control
+Идёт работа над обновлением расписания в реальном времени
 ## Used libs:
 - [`RouterOS api`](https://github.com/socialwifi/RouterOS-api)
 - [`pyTelegramBotApi`](https://github.com/eternnoir/pyTelegramBotAPI)
