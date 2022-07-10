@@ -1,6 +1,7 @@
 
 # -*- coding: utf-8 -*-
 import csv
+import sys
 import time
 import rosapi
 import telebot
@@ -36,26 +37,14 @@ def mult_threading(func):
 def create_user():
     with open("schedule.csv", 'r', encoding='utf-8') as schedule_file:
         reader = csv.DictReader(schedule_file, delimiter=',')
+        lenght = len(list(reader))
         for row in reader:
             create_time.append(row["create"])
             delete_time.append(row["remove"])
         schedule_file.close()
-    schedule.every().day.at(create_time[0]).do(add_user)
-    schedule.every().day.at(delete_time[0]).do(remove_user)
-    schedule.every().day.at(create_time[1]).do(add_user)
-    schedule.every().day.at(delete_time[1]).do(remove_user)
-    schedule.every().day.at(create_time[2]).do(add_user)
-    schedule.every().day.at(delete_time[2]).do(remove_user)
-    schedule.every().day.at(create_time[3]).do(add_user)
-    schedule.every().day.at(delete_time[3]).do(remove_user)
-    schedule.every().day.at(create_time[4]).do(add_user)
-    schedule.every().day.at(delete_time[4]).do(remove_user)
-    schedule.every().day.at(create_time[5]).do(add_user)
-    schedule.every().day.at(delete_time[5]).do(remove_user)
-    schedule.every().day.at(create_time[6]).do(add_user)
-    schedule.every().day.at(delete_time[6]).do(remove_user)
-    schedule.every().day.at(create_time[7]).do(add_user)
-    schedule.every().day.at(delete_time[7]).do(remove_user)
+    for i in range(0, lenght):
+        schedule.every().day.at(create_time[i]).do(add_user(i))
+        schedule.every().day.at(delete_time[i]).do(remove_user(i))
     while True:
         schedule.run_pending()
         time.sleep(1)
